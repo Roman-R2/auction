@@ -1,0 +1,4 @@
+certbot_email: slyusarrv@yandex.ru
+certbot_hosts:
+    - eventhm.ru
+    - api.eventhm.ru

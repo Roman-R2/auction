@@ -1,0 +1,15 @@
+---
+-   name: Log into private registry
+    hosts: site
+    remote_user: root
+    become: yes
+    become_user: deploy
+    vars_prompt:
+        -   name: username
+            prompt: "Username"
+            private: no
+        -   name: password
+            prompt: "Password"
+    tasks:
+        -   name: Log into private registry
+            shell: "echo {{ password }} | docker login -u {{ username }} --password-stdin"
