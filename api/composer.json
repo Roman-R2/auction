@@ -1,0 +1,17 @@
+{
+    "name": "romanr2/eventhm_auction",
+    "type": "project",
+    "require": {
+        "php": "^7.4",
+        "slim/psr7": "^1.1",
+        "slim/slim": "^4.5"
+    },
+    "license": "BSD-3-Clause",
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master"
+    }
+}
