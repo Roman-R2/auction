@@ -9,21 +9,11 @@ http_response_code(500);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$builder = new DI\ContainerBuilder();
-
-$builder->addDefinitions([
-    'config' => [
-        'debug' => (bool)getenv('APP_DEBUG'),
-    ],
-    \Psr\Http\Message\ResponseFactoryInterface::class => DI\get(\Slim\Psr7\Factory\ResponseFactory::class),
-]);
-
-$container = $builder->build();
+$container = require __DIR__.'/../config/container.php';
 
 $app = AppFactory::createFromContainer($container);
 
-$app->addErrorMiddleware($container->get('config')['debug'], true, true);
-
-$app->get('/', Http\Action\HomeAction::class);
+(require __DIR__.'/../config/middleware.php')($app, $container);
+(require __DIR__.'/../config/routes.php')($app);
 
 $app->run();
