@@ -50,6 +50,7 @@ push-frontend:
 
 push-api:
 	docker push ${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG}
+	docker push ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
 	docker push ${REGISTRY}/auction-api:${IMAGE_TAG}
 
 deploy:
@@ -63,7 +64,6 @@ deploy:
 	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose -f docker-compose-production.yml up --build --remove-orphans -d'
 	ssh ${HOST} -p ${PORT} 'rm -rf site'
 	ssh ${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
-
 
 git:
 	git status
