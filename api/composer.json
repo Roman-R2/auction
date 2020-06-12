@@ -15,7 +15,10 @@
         "sort-packages": true
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master"
+        "overtrue/phplint": "^2.0",
+        "roave/security-advisories": "dev-master",
+        "squizlabs/php_codesniffer": "*",
+        "vimeo/psalm": "^3.11"
     },
     "autoload": {
         "psr-4": {
@@ -23,6 +26,10 @@
         }
     },
     "scripts": {
+        "lint": "phplint",
+        "psalm": "psalm",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
         "app": "php bin/app.php --ansi"
     }
 }

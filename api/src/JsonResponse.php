@@ -10,7 +10,10 @@ use Slim\Psr7\Response;
 
 class JsonResponse extends Response
 {
-
+    /**
+     * @param mixed $data
+     * @param int $status
+     */
     public function __construct($data, int $status = 200)
     {
 
