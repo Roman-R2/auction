@@ -8,7 +8,7 @@ $files = array_merge(
 );
 
 $configs = array_map(
-    static function (string $file) : array {
+    static function (string $file): array {
         /**
          * @var array
          * @noinspection PhpIncludeInspection

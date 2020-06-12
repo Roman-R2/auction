@@ -3,8 +3,10 @@ up: docker-up
 down: docker-down
 restart: down up
 to-server: build push deploy
+check: lint analise test
 lint: api-lint
-analize: api-analize
+analise: api-analise
+test: api-test
 
 docker-up:
 	docker-compose up -d
@@ -30,8 +32,12 @@ api-lint:
 	docker-compose run --rm api-php-cli composer lint
 	docker-compose run --rm api-php-cli composer cs-check
 
-api-analize:
+api-analise:
 	docker-compose run --rm api-php-cli composer psalm
+
+api-test:
+	docker-compose run --rm api-php-cli composer test
+
 
 build: build-gateway build-frontend build-api
 

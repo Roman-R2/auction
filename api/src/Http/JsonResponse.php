@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Http;
 
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
@@ -19,7 +19,7 @@ class JsonResponse extends Response
 
         parent::__construct(
             $status,
-            new Headers(['Content-type' => ' application\json']),
+            new Headers(['Content-type' => ' application/json']),
             (new StreamFactory())->createStream(json_encode($data, JSON_THROW_ON_ERROR))
         );
     }
