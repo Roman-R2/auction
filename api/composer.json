@@ -35,6 +35,7 @@
         "lint": "phplint",
         "psalm": "psalm",
         "test": "phpunit --colors=always",
+        "test-unit-coverage": "phpunit --colors=always --coverage-html var/coverage",
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
         "app": "php bin/app.php --ansi"

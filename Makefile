@@ -1,4 +1,4 @@
-init: docker-down-clear docker-pull docker-build docker-up api-init
+init: api-clear docker-down-clear docker-pull docker-build docker-up api-init
 up: docker-up
 down: docker-down
 restart: down up
@@ -7,6 +7,10 @@ check: lint analise test
 lint: api-lint
 analise: api-analise
 test: api-test
+test-unit: api-test-unit
+test-unit-coverage: api-test-unit-coverage
+test-functional: api-test-functional
+test-functional-coverage: api-test-functional-coverage
 
 docker-up:
 	docker-compose up -d
@@ -25,6 +29,9 @@ docker-build:
 
 api-init: api-composer-install
 
+api-clear:
+	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/*'
+
 api-composer-install:
 	docker-compose run --rm api-php-cli composer install
 
@@ -38,6 +45,17 @@ api-analise:
 api-test:
 	docker-compose run --rm api-php-cli composer test
 
+api-test-unit:
+	docker-compose run --rm api-php-cli composer test -- --testsuite=unit
+
+api-test-unit-coverage:
+	docker-compose run --rm api-php-cli composer test-unit-coverage -- --testsuite=unit
+
+api-test-functional:
+	docker-compose run --rm api-php-cli composer test -- --testsuite=functional
+
+api-test-functional-coverage:
+	docker-compose run --rm api-php-cli composer test-unit-coverage -- --testsuite=functional
 
 build: build-gateway build-frontend build-api
 

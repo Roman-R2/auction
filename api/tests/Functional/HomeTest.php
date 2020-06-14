@@ -4,23 +4,20 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
-use PHPUnit\Framework\TestCase;
-use Slim\Psr7\Factory\ServerRequestFactory;
-
-class HomeTest extends TestCase
+class HomeTest extends WebTestCase
 {
+    public function testMethod(): void
+    {
+        $response = $this->app()->handle(self::json('POST', '/'));
+
+        self::assertEquals(405, $response->getStatusCode());
+    }
+
     public function testSuccess(): void
     {
-        /** @var ContainerInterface $container */
-        $container = require __DIR__ . '/../../config/container.php';
+        $response = $this->app()->handle(self::json('GET', '/'));
 
-        /** @var App $app */
-        $app = (require __DIR__ . '/../../config/app.php')($container);
-
-        $request = (new ServerRequestFactory())->createServerRequest('GET', '/');
-
-        $response = $app->handle($request);
-
+        self::assertEquals('application/json', $response->getHeaderLine('Content-Type'));
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals('{}', (string)$response->getBody());
     }
