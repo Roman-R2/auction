@@ -6,11 +6,12 @@ namespace App\Auth\Test\Unit\Entity\User\User;
 
 
 use App\Auth\Entity\User\Email;
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers Email
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class EmailTest extends TestCase
 {

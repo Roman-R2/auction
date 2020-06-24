@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Auth\Test\Unit\Entity\User\User;
 
 use App\Auth\Entity\User\Id;
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 /**
  * @covers Id
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class IdTest extends TestCase
 {

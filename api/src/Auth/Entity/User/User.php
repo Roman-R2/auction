@@ -4,30 +4,89 @@ declare(strict_types=1);
 
 namespace App\Auth\Entity\User;
 
+use ArrayObject;
 use DateTimeImmutable;
+use DomainException;
 
 class User
 {
+
     private Id $id;
     private DateTimeImmutable $date;
     private Email $email;
-    private string $passwordHash;
-    private ?Token $joinConfirmToken;
+    private ?string $passwordHash = null;
+    private ?Token $joinConfirmToken = null;
+    private Status $status;
+    private ArrayObject $networks;
 
-    public function __construct(
+    private function __construct(
+        Id $id,
+        DateTimeImmutable $date,
+        Email $email,
+        Status $status
+    )
+    {
+        $this->id = $id;
+        $this->date = $date;
+        $this->email = $email;
+        $this->status = $status;
+        $this->networks = new ArrayObject();
+    }
+
+    public static function requestJoinByEmail(
         Id $id,
         DateTimeImmutable $date,
         Email $email,
         string $passwordHash,
-        Token $joinConfirmToken
-    )
+        Token $token
+    ): self
     {
+        $user = new self($id, $date, $email, Status::wait());
+        $user->passwordHash = $passwordHash;
+        $user->joinConfirmToken = $token;
+        return $user;
+    }
 
-        $this->id = $id;
-        $this->date = $date;
-        $this->email = $email;
-        $this->passwordHash = $passwordHash;
-        $this->joinConfirmToken = $joinConfirmToken;
+    public static function joinByNetwork(
+        Id $id,
+        DateTimeImmutable $date,
+        Email $email,
+        Network $network
+    ): self {
+        $user = new self($id, $date, $email, Status::active());
+        $user->networks->append($network);
+        return $user;
+    }
+
+    public function attachNetwork(Network $network): void
+    {
+        /** @var Network $existing */
+        foreach ($this->networks as $existing) {
+            if ($existing->isEqualTo($network)) {
+                throw new DomainException('Network is already attached.');
+            }
+        }
+        $this->networks->append($network);
+    }
+
+    public function confirmJoin(string $token, DateTimeImmutable $date): void
+    {
+        if ($this->joinConfirmToken === null) {
+            throw new DomainException('Confirmation is not required.');
+        }
+        $this->joinConfirmToken->validate($token, $date);
+        $this->status = Status::active();
+        $this->joinConfirmToken = null;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status->isActive();
+    }
+
+    public function isWait(): bool
+    {
+        return $this->status->isWait();
     }
 
     public function getId(): Id
@@ -45,7 +104,7 @@ class User
         return $this->email;
     }
 
-    public function getPasswordHash(): string
+    public function getPasswordHash(): ?string
     {
         return $this->passwordHash;
     }
@@ -53,5 +112,14 @@ class User
     public function getJoinConfirmToken(): ?Token
     {
         return $this->joinConfirmToken;
+    }
+
+    /**
+     * @return Network[]
+     */
+    public function getNetworks(): array
+    {
+        /** @var Network[] */
+        return $this->networks->getArrayCopy();
     }
 }

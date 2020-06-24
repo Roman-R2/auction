@@ -5,18 +5,24 @@ declare(strict_types=1);
 namespace App\Auth\Test\Unit\Entity\User\User\JoinByEmail;
 
 
+use App\Auth\Entity\User\Email;
+use App\Auth\Entity\User\Id;
+use App\Auth\Entity\User\Token;
+use App\Auth\Entity\User\User;
+use App\Auth\Test\Builder\UserBuilder;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
 /**
  * @covers User
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class RequestTest extends TestCase
 {
     public function testSeccess(): void
     {
-        $user = new User (
+        $user = User::requestJoinByEmail(
             $id = Id::generate(),
             $date = new DateTimeImmutable(),
             $email = new Email('mail@example.com'),
@@ -29,5 +35,8 @@ class RequestTest extends TestCase
         self::assertEquals($email, $user->getEmail());
         self::assertEquals($hash, $user->getPasswordHash());
         self::assertEquals($token, $user->getJoinConfirmToken());
+
+        self::assertFalse($user->isActive());
+        self::assertTrue($user->isWait());
     }
 }

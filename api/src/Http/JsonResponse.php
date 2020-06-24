@@ -8,6 +8,9 @@ use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Response;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class JsonResponse extends Response
 {
     /**

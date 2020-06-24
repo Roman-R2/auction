@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Test\Unit\Entity\User\User;
+namespace App\Auth\Test\Unit\Entity\User\Token;
 
 use App\Auth\Entity\User\Token;
 use DateTimeImmutable;
@@ -14,7 +14,7 @@ use Ramsey\Uuid\Uuid;
  * @covers Token
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class TokenTest extends TestCase
+class CreateTest extends TestCase
 {
     public function testSuccess(): void
     {
@@ -31,7 +31,7 @@ class TokenTest extends TestCase
     {
         $value = Uuid::uuid4()->toString();
 
-        $token = new Token($value, new DateTimeImmutable());
+        $token = new Token(mb_strtoupper($value), new DateTimeImmutable());
 
         self::assertEquals($value, $token->getValue());
     }
@@ -47,5 +47,4 @@ class TokenTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new Token('', new DateTimeImmutable());
     }
-
 }

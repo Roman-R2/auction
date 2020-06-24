@@ -10,5 +10,8 @@ return static function (App $app, \Psr\Container\ContainerInterface $container):
      * @psalm-var array{debug:bool}
      */
     $config = $container->get('config');
+    /**
+     * @psalm-suppress InvalidArrayOffset
+     */
     $app->addErrorMiddleware($config['debug'], $config['env'] !== 'test', true);
 };

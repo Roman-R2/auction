@@ -7,7 +7,13 @@ namespace App\Auth\Command\JoinByEmail\Request;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
 use App\Auth\Entity\User\User;
+use App\Auth\Entity\User\UserRepository;
+use App\Auth\Service\JoinConfirmationSender;
+use App\Auth\Service\PasswordHasher;
+use App\Auth\Service\Tokenizer;
+use App\Flusher;
 use DateTimeImmutable;
+use DomainException;
 
 class Handler
 {
@@ -38,12 +44,12 @@ class Handler
 
         if ($this->users->hasByEmail($email))
         {
-            throw  new \DomainException('User already exists/');
+            throw  new DomainException('User already exists/');
         }
 
         $date = new DateTimeImmutable();
 
-        $user = new User (
+        $user = User::requestJoinByEmail (
             Id::generate(),
             $date,
             $email,
