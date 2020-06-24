@@ -24,7 +24,7 @@ class ConfirmTest extends TestCase
         self::assertFalse($user->isActive());
         self::assertTrue($user->isWait());
 
-        $user->confirmJoin (
+        $user->confirmJoin(
             $token->getValue(),
             $token->getExpires()->modify('-1 day')
         );

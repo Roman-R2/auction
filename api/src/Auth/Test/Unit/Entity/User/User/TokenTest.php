@@ -47,5 +47,4 @@ class TokenTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new Token('', new DateTimeImmutable());
     }
-
 }

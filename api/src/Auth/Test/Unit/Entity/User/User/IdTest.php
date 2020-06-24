@@ -47,5 +47,4 @@ class IdTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new id('');
     }
-
 }

@@ -16,6 +16,7 @@ class User
     private Email $email;
     private ?string $passwordHash = null;
     private ?Token $joinConfirmToken = null;
+    private ?Token $passwordResetToken = null;
     private Status $status;
     private ArrayObject $networks;
 
@@ -24,8 +25,7 @@ class User
         DateTimeImmutable $date,
         Email $email,
         Status $status
-    )
-    {
+    ) {
         $this->id = $id;
         $this->date = $date;
         $this->email = $email;
@@ -39,8 +39,7 @@ class User
         Email $email,
         string $passwordHash,
         Token $token
-    ): self
-    {
+    ): self {
         $user = new self($id, $date, $email, Status::wait());
         $user->passwordHash = $passwordHash;
         $user->joinConfirmToken = $token;
@@ -56,6 +55,16 @@ class User
         $user = new self($id, $date, $email, Status::active());
         $user->networks->append($network);
         return $user;
+    }
+
+    public function resetPassword(string $token, DateTimeImmutable $date, string $hash): void
+    {
+        if ($this->passwordResetToken === null) {
+            throw new DomainException('Resetting is not requested.');
+        }
+        $this->passwordResetToken->validate($token, $date);
+        $this->passwordResetToken = null;
+        $this->passwordHash = $hash;
     }
 
     public function attachNetwork(Network $network): void
@@ -114,6 +123,11 @@ class User
         return $this->joinConfirmToken;
     }
 
+    public function getPasswordResetToken(): ?Token
+    {
+        return $this->passwordResetToken;
+    }
+
     /**
      * @return Network[]
      */
@@ -121,5 +135,16 @@ class User
     {
         /** @var Network[] */
         return $this->networks->getArrayCopy();
+    }
+
+    public function requestPasswordReset(Token $token, DateTimeImmutable $date): void
+    {
+        if (!$this->status->isActive()) {
+            throw new DomainException('User is not active.');
+        }
+        if ($this->passwordResetToken !== null && !$this->passwordResetToken->isExpiredTo($date)) {
+            throw new DomainException('Resetting is already request.');
+        }
+        $this->passwordResetToken = $token;
     }
 }

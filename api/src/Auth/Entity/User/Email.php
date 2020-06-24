@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Auth\Entity\User;
 
-
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
@@ -15,7 +14,7 @@ class Email
     public function __construct(string $value)
     {
         Assert::notEmpty($value);
-        if (!filter_var($value, FILTER_VALIDATE_EMAIL)){
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException('Incorrect email');
         }
 

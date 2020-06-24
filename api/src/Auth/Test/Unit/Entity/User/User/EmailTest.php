@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Auth\Test\Unit\Entity\User\User;
 
-
 use App\Auth\Entity\User\Email;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -38,5 +37,4 @@ class EmailTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new Email('');
     }
-
 }
