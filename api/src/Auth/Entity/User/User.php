@@ -22,6 +22,7 @@ class User
     private ArrayObject $networks;
     private ?Email $newEmail = null;
     private ?Token $newEmailToken = null;
+    private Role $role;
 
     private function __construct(
         Id $id,
@@ -34,6 +35,8 @@ class User
         $this->email = $email;
         $this->status = $status;
         $this->networks = new ArrayObject();
+        /** @var Role */
+        $this->role = Role::user();
     }
 
     public static function requestJoinByEmail(
@@ -128,6 +131,11 @@ class User
         $this->newEmailToken = null;
     }
 
+    public function changeRole(Role $role): void
+    {
+        $this->role = $role;
+    }
+
     public function isActive(): bool
     {
         return $this->status->isActive();
@@ -196,5 +204,17 @@ class User
     public function getNewEmailToken(): ?Token
     {
         return $this->newEmailToken;
+    }
+
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
+    public function remove(): void
+    {
+        if (!$this->isWait()) {
+            throw new DomainException('Unable to remove active user.');
+        }
     }
 }

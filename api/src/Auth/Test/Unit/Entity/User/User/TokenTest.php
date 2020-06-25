@@ -12,7 +12,6 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @covers Token
- * @psalm-suppress PropertyNotSetInConstructor
  */
 class TokenTest extends TestCase
 {
