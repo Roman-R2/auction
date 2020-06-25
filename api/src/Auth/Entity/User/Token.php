@@ -46,7 +46,7 @@ class Token
         return $this->expires <= $date;
     }
 
-    private function isEqualTo(string $value): bool
+    public function isEqualTo(string $value): bool
     {
         return $this->value === $value;
     }

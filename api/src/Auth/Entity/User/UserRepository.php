@@ -11,7 +11,9 @@ interface UserRepository
     public function hasByEmail(Email $email): bool;
     public function hasByNetwork(Network $network): ?User;
     public function findByConfirmToken(string $token): ?User;
-    public function findByPasswordResetToken(string $token): User;
+    public function findByPasswordResetToken(string $token): ?User;
+    public function findByNewEmailToken(string $token): ?User;
+
     /**
      * @param Id $param
      * @return User
