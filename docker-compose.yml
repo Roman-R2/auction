@@ -34,6 +34,7 @@ services:
             APP_ENV: dev
             APP_DEBUG: 1
             PHP_IDE_CONFIG: serverName=API
+            DB_URL: pgsql://app:secret@api-postgres:5432/app
         volumes:
             - ./api:/app
 
@@ -44,5 +45,20 @@ services:
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
+            DB_URL: pgsql://app:secret@api-postgres:5432/app
         volumes:
             - ./api:/app
+
+    api-postgres:
+        image: postgres:12.2-alpine
+        environment:
+            POSTGRES_USER: app
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: app
+        volumes:
+            - api-postgres:/var/lib/postgresql/data
+        ports:
+            - 54321:5432
+
+volumes:
+    api-postgres:
