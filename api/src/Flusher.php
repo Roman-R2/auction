@@ -4,7 +4,20 @@ declare(strict_types=1);
 
 namespace App;
 
-interface Flusher
+use Doctrine\ORM\EntityManager;
+
+class Flusher
 {
-    public function flush(): void;
+    private EntityManager $em;
+
+    public function __construct(EntityManager $em)
+    {
+
+        $this->em = $em;
+    }
+
+    public function flush(): void
+    {
+        $this->em->flush();
+    }
 }

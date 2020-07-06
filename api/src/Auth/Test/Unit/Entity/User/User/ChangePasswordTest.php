@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers User
- * @psalm-suppress PropertyNotSetInConstructor
  */
 class ChangePasswordTest extends TestCase
 {

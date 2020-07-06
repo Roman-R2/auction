@@ -30,4 +30,9 @@ class Role
     {
         return $this->name;
     }
+
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
 }
