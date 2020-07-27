@@ -11,6 +11,12 @@
             <property name="ignoreBlankLines" value="false"/>
         </properties>
     </rule>
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="1000"/>
+            <property name="absoluteLineLimit" value="1000"/>
+        </properties>
+    </rule>
 
     <file>bin</file>
     <file>config</file>
