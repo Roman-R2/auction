@@ -9,9 +9,6 @@ use App\Auth\Service\PasswordHasher;
 use App\Auth\Test\Builder\UserBuilder;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers User
- */
 class ChangePasswordTest extends TestCase
 {
     public function testSuccess(): void

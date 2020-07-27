@@ -8,9 +8,6 @@ use App\Http\JsonResponse;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-/**
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class JsonResponseTest extends TestCase
 {
     public function testWithCode(): void

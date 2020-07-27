@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
-/**
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class HomeTest extends WebTestCase
 {
     public function testMethod(): void

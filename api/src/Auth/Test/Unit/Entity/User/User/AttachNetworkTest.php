@@ -9,10 +9,6 @@ use App\Auth\Entity\User\User;
 use App\Auth\Test\Builder\UserBuilder;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers User
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class AttachNetworkTest extends TestCase
 {
     public function testSuccess(): void

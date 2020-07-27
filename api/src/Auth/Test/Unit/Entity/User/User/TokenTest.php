@@ -10,9 +10,6 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
-/**
- * @covers Token
- */
 class TokenTest extends TestCase
 {
     public function testSuccess(): void

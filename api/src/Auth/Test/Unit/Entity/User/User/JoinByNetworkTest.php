@@ -12,10 +12,6 @@ use App\Auth\Entity\User\Status;
 use App\Auth\Entity\User\User;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers User
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class JoinByNetworkTest extends TestCase
 {
     public function testSuccess(): void

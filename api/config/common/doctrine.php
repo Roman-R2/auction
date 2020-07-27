@@ -6,6 +6,8 @@ use App\Auth;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\Common\EventManager;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
@@ -13,6 +15,8 @@ use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
 
 return [
+    //Контейнер, при вызове EntityManager выполнит эту анонимную функцию один раз,
+    //сохранит объект внутри себя и потом уже будет возвращать этот объект
     EntityManagerInterface::class => function (ContainerInterface $container): EntityManagerInterface {
         /**
          * @psalm-suppress MixedArrayAccess
@@ -27,6 +31,8 @@ return [
          */
         $settings = $container->get('config')['doctrine'];
 
+        //Создаем конфигурацияю для doctrine
+        //с помошью фабрики createAnnotationMetadataConfiguration, передавая туда нужные параметры
         $config = Setup::createAnnotationMetadataConfiguration(
             $settings['metadata_dirs'],
             $settings['dev_mode'],
@@ -35,17 +41,37 @@ return [
             false
         );
 
+        //Устанавливаем стратегию именования полей в БД из имен полей сущьностей
+        //для их автоматической конвертации в_такой_формат
         $config->setNamingStrategy(new UnderscoreNamingStrategy());
 
+        //Прохрдим по массиву types из конфигурации, который содержит наши кастомные типы для сушности
+        //и добавляем их в доктрину, чтобы они в ней были зарегистрированны
         foreach ($settings['types'] as $name => $class) {
             if (!Type::hasType($name)) {
                 Type::addType($name, $class);
             }
         }
 
+        //Подключаем к doctrine слушателя из FixDefaultSchemaSubscriber.php
+        // и добавляем его в EntityManager
+        $eventManager = new EventManager();
+
+        /**
+         * @psalm-suppress InvalidArrayOffset
+         * @psalm-suppress MixedAssignment
+         * @psalm-suppress MixedArgument
+         */
+        foreach ($settings['subscribers'] as $name) {
+            /** @var EventSubscriber $subscriber */
+            $subscriber = $container->get($name);
+            $eventManager->addEventSubscriber($subscriber);
+        }
+
         return EntityManager::create(
             $settings['connection'],
             $config,
+            $eventManager
         );
     },
 
@@ -62,6 +88,7 @@ return [
                 'dbname' => getenv('DB_NAME'),
                 'charset' => 'utf-8'
             ],
+            'subscribers' => [],
             'metadata_dirs' => [
                 __DIR__ . '/../../src/Auth/Entity',
             ],

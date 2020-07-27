@@ -8,10 +8,6 @@ use App\Auth\Entity\User\Role;
 use App\Auth\Test\Builder\UserBuilder;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers User
- * @psalm-suppress PropertyNotSetInConstructor
- */
 class ChangeRoleTest extends TestCase
 {
     public function testSuccess(): void
