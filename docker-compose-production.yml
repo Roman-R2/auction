@@ -40,6 +40,7 @@ services:
             MAILER_ENCRYPTION: tls
             MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
             FRONTEND_URL: https://eventhm.ru/
+            SENTRY_DSN: https://d9ad54a874c64c76b0685a8fefd3e801@o426538.ingest.sentry.io/5368579
 
     api-php-cli:
         image: ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
@@ -57,6 +58,7 @@ services:
             MAILER_ENCRYPTION: tls
             MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
             FRONTEND_URL: https://eventhm.ru/
+            SENTRY_DSN: https://d9ad54a874c64c76b0685a8fefd3e801@o426538.ingest.sentry.io/5368579
 
     api-postgres:
         image: postgres:12.2-alpine

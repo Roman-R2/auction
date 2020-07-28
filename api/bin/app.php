@@ -12,10 +12,21 @@ use Symfony\Component\Console\Command\Command;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+if (getenv('SENTRY_DSN')) {
+    Sentry\init(['dsn' => getenv('SENTRY_DSN')]);
+}
+
 /** @var ContainerInterface $container */
 $container = require __DIR__ . '/../config/container.php';
 
 $cli = new Application('Console');
+
+//Отключаем отлов ошибок у консольного приложения symfony если указана нужная переменная окружения,
+// так как мы используем sentry.
+//А если ошибки обрабатываются в нашем коде, то до sentry они не доходят
+if (getenv('SENTRY_DSN')) {
+    $cli->setCatchExceptions(false);
+}
 
 /**
  * @var string[] $commands
