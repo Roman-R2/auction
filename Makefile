@@ -7,11 +7,11 @@ check: lint analise test validate-schema
 lint: api-lint
 analise: api-analise
 validate-schema: api-validate-schema
-test: api-test
+test: api-test api-fixtures
 test-unit: api-test-unit
 test-unit-coverage: api-test-unit-coverage
-test-functional: api-test-functional
-test-functional-coverage: api-test-functional-coverage
+test-functional: api-test-functional api-fixtures
+test-functional-coverage: api-test-functional-coverage api-fixtures
 
 my:
 	sudo chown ${USER}:${USER} api/src -R
@@ -127,5 +127,5 @@ deploy:
 git:
 	git status
 	git add .
-	git commit -m "${MESSAGE}"
+	git commit -m "${M}"
 	git push origin master

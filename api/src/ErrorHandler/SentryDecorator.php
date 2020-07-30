@@ -27,7 +27,7 @@ class SentryDecorator implements ErrorHandlerInterface
         bool $logErrors,
         bool $logErrorDetails
     ): ResponseInterface {
-        //Ради этой строчки мы и переопределили метод __invoke класса ErrorHandlerInterface
+        //Ради этой строчки мы и добавили новый функционал в метод __invoke класса ErrorHandlerInterface
         //чтобы в sentry передавались все логи
         captureException($exception);
 

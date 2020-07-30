@@ -16,6 +16,7 @@
         "slim/slim": "^4.5",
         "swiftmailer/swiftmailer": "^6.0",
         "symfony/console": "^5.1",
+        "symfony/validator": "^5.1",
         "twig/twig": "^3.0",
         "webmozart/assert": "^1.9"
     },
@@ -25,8 +26,10 @@
         "sort-packages": true
     },
     "require-dev": {
+        "dms/phpunit-arraysubset-asserts": "^0.2.0",
         "doctrine/common": "^2.11",
         "doctrine/data-fixtures": "^1.4",
+        "guzzlehttp/guzzle": "^6.0",
         "overtrue/phplint": "^2.0",
         "phpunit/phpunit": "^9.2",
         "roave/security-advisories": "dev-master",

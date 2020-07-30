@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Command\JoinByEmail\Comfirm;
+namespace App\Auth\Command\JoinByEmail\Confirm;
 
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
