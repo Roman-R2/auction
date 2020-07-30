@@ -7,20 +7,17 @@ namespace App\Http\Action\V1\Auth\Join;
 use App\Auth\Command\JoinByEmail\Request\Command;
 use App\Auth\Command\JoinByEmail\Request\Handler;
 use App\Http\EmptyResponse;
-use App\Http\JsonResponse;
-use DomainException;
+use App\Http\Validator\Validator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\Validator\ConstraintViolationInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestAction implements RequestHandlerInterface
 {
     private Handler $handler;
-    private ValidatorInterface $validator;
+    private Validator $validator;
 
-    public function __construct(Handler $handler, ValidatorInterface $validator)
+    public function __construct(Handler $handler, Validator $validator)
     {
         $this->handler = $handler;
         $this->validator = $validator;
@@ -28,7 +25,6 @@ class RequestAction implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        //Получаем из getParsedBody, так как мы задействовали addBodyParsingMiddleware
         /**
          * @psalm-var array{email:?string, password:?string} $data
          */
@@ -38,16 +34,7 @@ class RequestAction implements RequestHandlerInterface
         $command->email = $data['email'] ?? '';
         $command->password = $data['password'] ?? '';
 
-        $violations = $this->validator->validate($command);
-
-        if ($violations->count() > 0) {
-            $errors = [];
-            /** @var ConstraintViolationInterface $violation */
-            foreach ($violations as $violation) {
-                $errors[$violation->getPropertyPath()] = $violation->getMessage();
-            }
-            return new JsonResponse(['errors' => $errors], 422);
-        }
+        $this->validator->validate($command);
 
         $this->handler->handle($command);
 
