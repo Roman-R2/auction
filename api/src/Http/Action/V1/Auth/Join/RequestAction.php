@@ -12,14 +12,18 @@ use DomainException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RequestAction implements RequestHandlerInterface
 {
     private Handler $handler;
+    private ValidatorInterface $validator;
 
-    public function __construct(Handler $handler)
+    public function __construct(Handler $handler, ValidatorInterface $validator)
     {
         $this->handler = $handler;
+        $this->validator = $validator;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -33,6 +37,17 @@ class RequestAction implements RequestHandlerInterface
         $command = new Command();
         $command->email = $data['email'] ?? '';
         $command->password = $data['password'] ?? '';
+
+        $violations = $this->validator->validate($command);
+
+        if ($violations->count() > 0) {
+            $errors = [];
+            /** @var ConstraintViolationInterface $violation */
+            foreach ($violations as $violation) {
+                $errors[$violation->getPropertyPath()] = $violation->getMessage();
+            }
+            return new JsonResponse(['errors' => $errors], 422);
+        }
 
         $this->handler->handle($command);
 
