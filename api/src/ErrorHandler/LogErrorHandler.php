@@ -25,6 +25,9 @@ class LogErrorHandler extends ErrorHandler
 
     protected function writeToErrorLog(): void
     {
+        /**
+         * @param void $this->logger
+         */
         $this->logger->error($this->exception->getMessage(), [
             'exception' => $this->exception,
             'url' => (string)$this->request->getUri(),
