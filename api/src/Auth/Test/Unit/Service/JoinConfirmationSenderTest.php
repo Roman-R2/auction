@@ -28,6 +28,7 @@ class JoinConfirmationSenderTest extends TestCase
         $confirmUrl = 'http://test/join/confirm?token=' . $token->getValue();
 
         $twig = $this->createMock(Environment::class);
+        /** @psalm-suppress MissingDependency */
         $twig->expects($this->once())->method('render')->with(
             $this->equalTo('auth/join/confirm.html.twig'),
             $this->equalTo(['token' => $token]),
