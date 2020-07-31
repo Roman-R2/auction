@@ -57,8 +57,6 @@ class RequestTest extends WebTestCase
 
     public function testExistingLang(): void
     {
-        $this->markTestIncomplete('Waiting for translation.');
-
         $response = $this->app()->handle(self::json('POST', '/v1/auth/join', [
             'email' => 'existing@app.test',
             'password' => 'new-password',
@@ -73,7 +71,6 @@ class RequestTest extends WebTestCase
             'message' => 'Пользователь уже существует.',
         ], $data);
     }
-
 
     public function testEmpty(): void
     {
