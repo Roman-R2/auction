@@ -17,6 +17,7 @@ use Slim\Psr7\Factory\UploadedFileFactory;
 /**
  * @covers ClearEmptyInput
  */
+
 class ClearEmptyInputTest extends TestCase
 {
     public function testParsedBody(): void
@@ -35,6 +36,7 @@ class ClearEmptyInputTest extends TestCase
                 ]
             ]);
 
+        /** @psalm-suppress UndefinedClass */
         $handler = $this->createMock(RequestHandlerInterface::class);
         $handler->expects($this->once())->method('handle')
             ->willReturnCallback(static function (ServerRequestInterface $request): ResponseInterface {

@@ -14,6 +14,7 @@ use Slim\Interfaces\CallableResolverInterface;
  */
 class LogErrorHandler extends ErrorHandler
 {
+
     public function __construct(
         CallableResolverInterface $callableResolver,
         ResponseFactoryInterface $responseFactory,
@@ -25,9 +26,7 @@ class LogErrorHandler extends ErrorHandler
 
     protected function writeToErrorLog(): void
     {
-        /**
-         * @param void $this->logger
-         */
+        /** @psalm-suppress MixedMethodCall */
         $this->logger->error($this->exception->getMessage(), [
             'exception' => $this->exception,
             'url' => (string)$this->request->getUri(),

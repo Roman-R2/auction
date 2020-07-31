@@ -12,6 +12,9 @@ return static function (App $app): void {
     //Свой собственный посредник, который отлавливает ошибки валидации,
     // чтобы не копипастить код по валидации в наших actions
     $app->add(Middleware\ValidationExceptionHandler::class);
+    //Свой собственный посредник, который устанавливает язык переводчика
+    // исходя из заголовка Accept-Language у HTTP запроса
+    $app->add(Middleware\TranslatorLocale::class);
     //Свой собственный посредник для очистки строк от пробелов и от не загруженных файлов
     $app->add(Middleware\ClearEmptyInput::class);
     //Посредник, которые парсит наш body запроса из разных форматов (таких как xml, json...)
