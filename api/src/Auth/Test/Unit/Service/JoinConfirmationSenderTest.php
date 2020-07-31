@@ -17,9 +17,7 @@ use Twig\Environment;
 
 /**
  * @covers JoinConfirmationSender
- * @psalm-suppress MissingDependency
- * @psalm-suppress MixedMethodCall
- * @psalm-suppress ParseError
+ * @psalm-suppress all
  */
 class JoinConfirmationSenderTest extends TestCase
 {
@@ -29,7 +27,6 @@ class JoinConfirmationSenderTest extends TestCase
         $token = new Token(Uuid::uuid4()->toString(), new DateTimeImmutable());
         $confirmUrl = 'http://test/join/confirm?token=' . $token->getValue();
 
-        /* @psalm-suppress MissingDependency */
         $twig = $this->createMock(Environment::class);
         $twig->expects($this->once())->method('render')->with(
             $this->equalTo('auth/join/confirm.html.twig'),

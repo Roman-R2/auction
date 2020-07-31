@@ -34,10 +34,10 @@
         "doctrine/data-fixtures": "^1.4",
         "guzzlehttp/guzzle": "^6.0",
         "overtrue/phplint": "^2.0",
-        "phpunit/phpunit": "^9.2",
+        "phpunit/phpunit": "9.0.1",
         "roave/security-advisories": "dev-master",
         "squizlabs/php_codesniffer": "*",
-        "vimeo/psalm": "^3.8"
+        "vimeo/psalm": "3.9.3"
     },
     "autoload": {
         "psr-4": {
