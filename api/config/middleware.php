@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Middlewares\ContentLanguage;
 use Slim\App;
 use Slim\Middleware\ErrorMiddleware;
 use App\Http\Middleware;
@@ -17,7 +18,7 @@ return static function (App $app): void {
     //Свой собственный посредники, которые устанавливают язык переводчика
     // исходя из заголовка Accept-Language у HTTP запроса
     $app->add(Middleware\TranslatorLocale::class);
-    $app->add(Middleware\LocaleNegotiation::class);
+    $app->add(ContentLanguage::class);
     //Посредник, которые парсит наш body запроса из разных форматов (таких как xml, json...)
     //В зависимости от того, какой запрос прилетел, производится декодирование запроса
     $app->addBodyParsingMiddleware();
