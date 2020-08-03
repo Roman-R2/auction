@@ -17,6 +17,7 @@
         </ignoreFiles>
     </projectFiles>
 
+
     <issueHandlers>
         <LessSpecificReturnType errorLevel="info" />
 

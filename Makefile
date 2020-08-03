@@ -7,10 +7,10 @@ down: docker-down
 restart: down up
 to-server: build push deploy
 check: lint analise test validate-schema
-lint: api-lint
+lint: api-lint frontend-lint
 analise: api-analise
 validate-schema: api-validate-schema
-test: api-test api-fixtures
+test: api-test api-fixtures frontend-test
 test-unit: api-test-unit
 test-unit-coverage: api-test-unit-coverage
 test-functional: api-test-functional api-fixtures
@@ -92,6 +92,18 @@ frontend-yarn-install:
 
 frontend-ready:
 	docker run --rm -v ${PWD}/frontend:/app -w /app alpine touch .ready
+
+frontend-lint:
+	docker-compose run --rm frontend-node-cli yarn lint
+
+frontend-lint-fix:
+	docker-compose run --rm frontend-node-cli yarn lint-fix
+
+frontend-test:
+	docker-compose run --rm frontend-node-cli yarn test --watchAll=false
+
+frontend-test-watch:
+	docker-compose run --rm frontend-node-cli yarn test
 
 build: build-gateway build-frontend build-api
 
