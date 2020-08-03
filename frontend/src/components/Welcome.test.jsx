@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import App from './App';
+import Welcome from "./Welcome";
 
-test('renders app', () => {
-  const { getByText } = render(<App />);
+test('renders welcome', () => {
+  const { getByText } = render(<Welcome />);
   const h1Element = getByText(/Auction/i);
   expect(h1Element).toBeInTheDocument();
 });
